@@ -1,0 +1,87 @@
+<?php
+/**
+ * Implementation of hook_webform_component_info().
+ */
+function webform_gmap_location_webform_component_info() {
+  $components = array ();
+  $components['gmap'] = array (
+    'label'       => t('Gmap'),
+    'description' => t('Gmap Field Location field'),
+    'features'    => array (
+      // Add content to CSV downloads. Defaults to TRUE.
+      'csv'           => TRUE,
+      // Show this component in e-mailed submissions. Defaults to TRUE.
+      'email'         => TRUE,
+      // Allow this component to be used as an e-mail FROM or TO address.
+      // Defaults to FALSE.
+      'email_address' => FALSE,
+      // Allow this component to be used as an e-mail SUBJECT or FROM name.
+      // Defaults to FALSE.
+      'email_name'    => FALSE,
+      // This component may be toggled as required or not. Defaults to TRUE.
+      'required'      => TRUE,
+      // This component has a title that can be toggled as displayed or not.
+      'title_display' => TRUE,
+      // This component has a title that can be displayed inline.
+      'title_inline'  => TRUE,
+      // If this component can be used as a conditional SOURCE. All components
+      // may always be displayed conditionally, regardless of this setting.
+      // Defaults to TRUE.
+      'conditional'   => FALSE,
+      // If this component allows other components to be grouped within it
+      // (like a fieldset or tabs). Defaults to FALSE.
+      'group'         => FALSE,
+      // If this component can be used for SPAM analysis, usually with Mollom.
+      'spam_analysis' => FALSE,
+      // If this component saves a file that can be used as an e-mail
+      // attachment. Defaults to FALSE.
+      'attachment'    => FALSE,
+    ),
+    'file'        => 'webform_gmap_location.components.inc',
+  );
+  return $components;
+}
+
+
+/**
+ * Implementation of hook_webform_validator_alter().
+ */
+function webform_gmap_location_webform_validator_alter(&$validators) {
+  $validators['unique']['component_types'][] = 'gmap';
+  $validators['oneoftwo']['component_types'][] = 'gmap';
+  $validators['oneofseveral']['component_types'][] = 'gmap';
+}
+
+
+
+
+function webform_gmap_location_webform_component_presave(&$component) {
+  if($component["type"] != 'gmap') return false;
+
+  global $user;
+  if (is_numeric($component['extra']['marker']) && $component['extra']['marker'] > 0) {
+    // Load the file via file.fid.
+    $file = file_load($component['extra']['marker']);
+    if ($file) {
+      // Change status to permanent.
+      $file->status = FILE_STATUS_PERMANENT;
+      // Save.
+      file_save($file);
+      // Save file to variable.
+      variable_set('webform_gmap_location_marker_fid', $file->fid);
+      // Record that the module (in this example, user module) is using the file.
+      file_usage_add($file, 'user', 'user', $user->uid);
+    }
+  }
+  else {
+    // Load the file via file.fid.
+    $file = file_load(variable_get('webform_gmap_location_marker_fid', ''));
+
+    if ($file && $file->fid)
+    {
+      // Delete the file and the usage record
+      file_delete($file, TRUE);
+    }
+    variable_del('webform_gmap_location_marker_fid');
+  }
+}
