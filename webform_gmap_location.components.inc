@@ -12,8 +12,6 @@ define('GMAP_DEFAULT_ZOOM', 10);
 
 /**
  * Specify the default properties of a component.
- * @return
- *   An array defining the default structure of a component.
  */
 function _webform_defaults_gmap() {
   return array(
@@ -56,26 +54,22 @@ function _webform_theme_gmap() {
 
 /**
  * Generate the form for editing a component.
- *
- * @param $component
- *   A Webform component array.
- *
- * @return
- *   An array of form items to be displayed on the edit component page
  */
 function _webform_edit_gmap($component) {
   global $language;
 
   $path = drupal_get_path('module', 'webform_gmap_location');
   drupal_add_js('http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' .
-                  $language->language, array('type' => 'external', 'weight' => 5));
-  drupal_add_js($path . '/js/gmap_admin.js', array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
+                $language->language, array('type' => 'external', 'weight' => 5));
+  drupal_add_js($path . '/js/gmap_admin.js',
+                array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
   drupal_add_js(
-    array('gmap' => array(
-      'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-      'lon' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-      'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
-      'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'])),
+    array(
+      'gmap' => array(
+        'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
+        'lon' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
+        'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
+        'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'])),
     'setting');
 
   $form = array();
@@ -128,18 +122,15 @@ function _webform_edit_gmap($component) {
   $form['extra']['gmap_lat'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-    '#attributes' => array('id' => 'gmap_lat')
-  );
+    '#attributes' => array('id' => 'gmap_lat'));
   $form['extra']['gmap_lon'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-    '#attributes' => array('id' => 'gmap_lon')
-  );
+    '#attributes' => array('id' => 'gmap_lon'));
   $form['extra']['gmap_zoom'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],
-    '#attributes' => array('id' => 'gmap_zoom')
-  );
+    '#attributes' => array('id' => 'gmap_zoom'));
   return $form;
 }
 
@@ -153,15 +144,14 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
   global $language;
   $path = drupal_get_path('module', 'webform_gmap_location');
   drupal_add_js('http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' .
-                $language->language,  array('type' => 'external', 'weight' => 5));
-  drupal_add_js($path . '/js/gmap_admin.js', array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
-  drupal_add_js(array('gmap' =>
-    array(
+                $language->language, array('type' => 'external', 'weight' => 5));
+  drupal_add_js($path . '/js/gmap_admin.js',
+                array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
+  drupal_add_js(array('gmap' => array(
       'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
       'lon' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
       'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
-      'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],)
-    ),
+      'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],)),
     'setting');
 
   $form_item = array(
@@ -174,7 +164,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#title_display'    => $component['extra']['title_display'] ? $component['extra']['title_display'] : 'before',
     '#weight'           => $component['weight'],
     '#markup'           => webform_gmap_location_get_markup($component),
-    '#translatable'     => array('title',),
+    '#translatable'     => array('title'),
     '#webform_component' => $component,
     '#theme' => 'gmap_location',
     '#process'          => array('webform_expand_hidden_field'),
@@ -187,7 +177,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
 
 
 /**
- * Add 3 hidden fields and loacation field
+ * Add 3 hidden fields and loacation field.
  */
 function webform_expand_hidden_field($element) {
   $component = $element["#webform_component"];
@@ -258,6 +248,7 @@ function _webform_analysis_gmap($component, $sids = array(), $single = FALSE) {
 
 /**
  * Return the result of a component value for display in a table.
+ *
  * The output of this function will be displayed under the "Results" tab then
  * "Table".
  */
@@ -267,9 +258,9 @@ function _webform_table_gmap($component, $value) {
 
 /**
  * Return the header for this component to be displayed in a CSV file.
+ *
  * The output of this function will be displayed under the "Results" tab then
  * "Download".
- *
  */
 function _webform_csv_headers_gmap($component, $export_options) {
   $header = array();
@@ -282,6 +273,7 @@ function _webform_csv_headers_gmap($component, $export_options) {
 
 /**
  * Format the submitted data of a component for CSV downloading.
+ *
  * The output of this function will be displayed under the "Results" tab then
  * "Download".
  */
@@ -291,7 +283,7 @@ function _webform_csv_data_gmap($component, $export_options, $value) {
 
 
 /**
- * return markup value
+ * return markup value.
  */
 function webform_gmap_location_get_markup($component) {
   $width = (int) $component['extra']['width'] != 0 ? (int) $component['extra']['width'] : '100%';
@@ -302,7 +294,7 @@ function webform_gmap_location_get_markup($component) {
 
 
 /**
- * Return marker url
+ * Return marker url.
  */
 function webform_gmap_location_get_marker_url($name_field) {
   if (variable_get($name_field) != '') {

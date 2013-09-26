@@ -61,10 +61,10 @@ function webform_gmap_location_webform_validator_alter(&$validators) {
 
 
 /**
- *  Implements hook_webform_component_presave().
+ * Implements hook_webform_component_presave().
  */
 function webform_gmap_location_webform_component_presave(&$component) {
-  if($component["type"] != 'gmap') {
+  if ($component["type"] != 'gmap') {
     return FALSE;
   }
   global $user;

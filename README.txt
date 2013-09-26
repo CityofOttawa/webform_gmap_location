@@ -16,7 +16,8 @@ DESCRIPTION
 -----------
 
 This module adds «Gmap» component to Webform.
-For Drupal 6 download this module: gmap (https://drupal.org/project/webform_gmap)
+For Drupal 6 download this module: gmap
+(https://drupal.org/project/webform_gmap)
 
 Component settings:
   1. values width/height for google map
