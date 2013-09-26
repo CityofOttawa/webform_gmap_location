@@ -75,7 +75,7 @@ function _webform_edit_gmap($component) {
     array(
       'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
       'lon'=> empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-      'path' => get_marker_url('webform_gmap_location_marker_fid'),
+      'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
       'zoom'=> empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],
     )
     ),
@@ -165,7 +165,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     array(
       'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
       'lon'=> empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-      'path' => get_marker_url('webform_gmap_location_marker_fid'),
+      'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
       'zoom'=> empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],
     )
     ),
@@ -180,7 +180,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#title'            => $filter ? _webform_filter_xss($component['name']) : $component['name'],
     '#title_display'    => $component['extra']['title_display'] ? $component['extra']['title_display'] : 'before',
     '#weight'           => $component['weight'],
-    '#markup'           =>  get_markup($component),
+    '#markup'           =>  webform_gmap_location_get_markup($component),
     '#translatable'     => array('title',),
     '#webform_component' => $component,
     '#theme' => 'gmap_location',
@@ -358,7 +358,7 @@ function _webform_csv_data_gmap($component, $export_options, $value) {
  * @return string
  * return markup value
  */
-function get_markup($component) {
+function webform_gmap_location_get_markup($component) {
   $width = (int)$component['extra']['width']!=0 ? (int)$component['extra']['width'] : '100%';
   $width = $width ? $width.'px': '100%';
   $height = (int)$component['extra']['height'] ? (int)$component['extra']['height'].'px': '300px';
@@ -371,7 +371,7 @@ function get_markup($component) {
  * @return bool|string
  * Return marker url
  */
-function get_marker_url($name_field) {
+function webform_gmap_location_get_marker_url($name_field) {
   if(variable_get($name_field) != '') {
     $fid = variable_get('webform_gmap_location_marker_fid', '');
     $file = file_load($fid);

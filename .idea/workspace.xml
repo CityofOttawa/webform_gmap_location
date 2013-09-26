@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="918ee8fe-f28f-4608-8fe6-971adf377dd5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gmap_admin.js" afterPath="$PROJECT_DIR$/js/gmap_admin.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webform_gmap_location.components.inc" afterPath="$PROJECT_DIR$/webform_gmap_location.components.inc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webform_gmap_location.module" afterPath="$PROJECT_DIR$/webform_gmap_location.module" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="webform_gmap_location.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="918ee8fe-f28f-4608-8fe6-971adf377dd5" time="1380181024742" ignored="false" />
+    <file path="/webform_gmap_location.components.inc" changelist="918ee8fe-f28f-4608-8fe6-971adf377dd5" time="1380183358315" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,21 +45,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webform_gmap_location.components.inc" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="webform_gmap_location.components.inc" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webform_gmap_location.components.inc">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="33" selection-start="53" selection-end="53" vertical-scroll-proportion="0.08230453">
+            <state line="373" column="39" selection-start="12547" selection-end="12555" vertical-scroll-proportion="-9.153846">
               <folding>
-                <marker date="1380182859447" expanded="false" signature="4090:4114" placeholder="..." />
+                <element signature="e#7#57#0" expanded="true" />
+                <marker date="1380183389515" expanded="false" signature="4112:4136" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webform_gmap_location.module" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="webform_gmap_location.module" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webform_gmap_location.module">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="6" selection-end="72" vertical-scroll-proportion="-0.625">
+            <state line="1" column="0" selection-start="6" selection-end="72" vertical-scroll-proportion="-0.9811321">
               <folding>
                 <element signature="e#7#72#0" expanded="true" />
               </folding>
@@ -398,15 +397,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webform_gmap_location.module">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="6" selection-end="72" vertical-scroll-proportion="-0.625">
-          <folding>
-            <element signature="e#7#72#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webform_gmap_location.info">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="24" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
@@ -423,9 +413,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webform_gmap_location.components.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="33" selection-start="53" selection-end="53" vertical-scroll-proportion="0.08230453">
+        <state line="373" column="39" selection-start="12547" selection-end="12555" vertical-scroll-proportion="-9.153846">
           <folding>
-            <marker date="1380182859447" expanded="false" signature="4090:4114" placeholder="..." />
+            <element signature="e#7#57#0" expanded="true" />
+            <marker date="1380183389515" expanded="false" signature="4112:4136" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webform_gmap_location.module">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="6" selection-end="72" vertical-scroll-proportion="-0.9811321">
+          <folding>
+            <element signature="e#7#72#0" expanded="true" />
           </folding>
         </state>
       </provider>
