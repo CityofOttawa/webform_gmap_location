@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Webform module Gmap component.
+ */
+
 define('GMAP_DEFAULT_LAT', 48.00);
 define('GMAP_DEFAULT_LON', 37.80);
 define('GMAP_DEFAULT_ZOOM', 10);

@@ -12,7 +12,6 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       var map = new google.maps.Map(document.getElementById("gmap"), myOptions);
-
       var input = (document.getElementById('MapLocation'));
       var autocomplete = new google.maps.places.Autocomplete(input);
       autocomplete.bindTo('bounds', map);
@@ -40,7 +39,6 @@
             (place.address_components[2] && place.address_components[2].short_name || '')
           ].join(' ');
         }
-
         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
         infowindow.open(map, marker);
         placeMarker(place.geometry.location);
@@ -64,4 +62,3 @@
     }
   };
 })(jQuery);
-
