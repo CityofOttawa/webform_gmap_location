@@ -147,11 +147,12 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
                 $language->language, array('type' => 'external', 'weight' => 5));
   drupal_add_js($path . '/js/gmap_admin.js',
                 array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
-  drupal_add_js(array('gmap' => array(
-      'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-      'lon' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-      'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
-      'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],)),
+  drupal_add_js(array(
+      'gmap' => array(
+        'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
+        'lon' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
+        'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
+        'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],)),
     'setting');
 
   $form_item = array(
@@ -167,7 +168,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#translatable'     => array('title'),
     '#webform_component' => $component,
     '#theme' => 'gmap_location',
-    '#process'          => array('webform_expand_hidden_field'),
+    '#process'          => array('webform_gmail_location_expand_hidden_field'),
   );
   if (isset($value)) {
     $form_item['#default_value'] = $value[0];
@@ -179,7 +180,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
 /**
  * Add 3 hidden fields and loacation field.
  */
-function webform_expand_hidden_field($element) {
+function webform_gmail_location_expand_hidden_field($element) {
   $component = $element["#webform_component"];
   if ($component["extra"]["places_autocomplete"] == 1) {
     $element['location'] = array(
@@ -283,7 +284,7 @@ function _webform_csv_data_gmap($component, $export_options, $value) {
 
 
 /**
- * return markup value.
+ * Return markup value.
  */
 function webform_gmap_location_get_markup($component) {
   $width = (int) $component['extra']['width'] != 0 ? (int) $component['extra']['width'] : '100%';
