@@ -5,7 +5,6 @@
       var lon = Drupal.settings.gmap.lon;
       var zoom = Drupal.settings.gmap.zoom;
       var icon = Drupal.settings.gmap.path;
-
       var latlng = new google.maps.LatLng(lat, lon);
       var myOptions = {
         zoom: parseInt(zoom),
@@ -18,7 +17,7 @@
       var autocomplete = new google.maps.places.Autocomplete(input);
       autocomplete.bindTo('bounds', map);
       var infowindow = new google.maps.InfoWindow();
-        google.maps.event.addListener(autocomplete, 'place_changed', function(event) {
+      google.maps.event.addListener(autocomplete, 'place_changed', function(event) {
         infowindow.close();
         marker.setVisible(false);
         var place = autocomplete.getPlace();
@@ -41,6 +40,7 @@
             (place.address_components[2] && place.address_components[2].short_name || '')
           ].join(' ');
         }
+
         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
         infowindow.open(map, marker);
         placeMarker(place.geometry.location);
@@ -64,3 +64,4 @@
     }
   };
 })(jQuery);
+
