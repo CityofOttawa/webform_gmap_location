@@ -75,13 +75,12 @@ function _webform_edit_gmap($component) {
       'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
       'lon' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
       'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
-      'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],)
-    ),
+      'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'])),
     'setting');
 
   $form = array();
   $form['extra']['places_autocomplete'] = array(
-    '#type' =>'checkbox',
+    '#type' => 'checkbox',
     '#default_value' => $component['extra']['places_autocomplete'],
     '#title' => t('Enable places autocomplete.'),
   );
@@ -180,7 +179,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#theme' => 'gmap_location',
     '#process'          => array('webform_expand_hidden_field'),
   );
-  if(isset($value)) {
+  if (isset($value)) {
     $form_item['#default_value'] = $value[0];
   }
   return $form_item;
@@ -195,7 +194,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
  */
 function webform_expand_hidden_field($element) {
   $component = $element["#webform_component"];
-  if($component["extra"]["places_autocomplete"] == 1) {
+  if ($component["extra"]["places_autocomplete"] == 1) {
     $element['location'] = array(
       '#type'              => 'textfield',
       '#title'             => t('Location'),
@@ -236,7 +235,6 @@ function theme_gmap_location($variables) {
 }
 
 
-
 /**
  * Calculate and returns statistics about results for this component.
  *
@@ -260,20 +258,20 @@ function theme_gmap_location($variables) {
 function _webform_analysis_gmap($component, $sids = array(), $single = FALSE) {
   // Generate the list of options and questions.
   $query = db_select('webform_submitted_data', 'wsd', array('fetch' => PDO::FETCH_ASSOC))->fields('wsd', array('data'))->condition('nid', $component['nid'])->condition('cid', $component['cid']);
-  if(count($sids)) {
+  if (count($sids)) {
     $query->condition('sid', $sids, 'IN');
   }
   $non_blanks = 0;
   $submissions = 0;
   $result = $query->execute();
   foreach ($result as $data) {
-    if(drupal_strlen(trim($data['data'])) > 0) {
+    if (drupal_strlen(trim($data['data'])) > 0) {
       $non_blanks++;
     }
     $submissions++;
   }
-  $rows[0] = array(t('Left Blank'),($submissions - $non_blanks));
-  $rows[1] = array(t('User entered value'),$non_blanks);
+  $rows[0] = array(t('Left Blank'), ($submissions - $non_blanks));
+  $rows[1] = array(t('User entered value'), $non_blanks);
   return $rows;
 }
 
@@ -349,10 +347,9 @@ function _webform_csv_data_gmap($component, $export_options, $value) {
  * return markup value
  */
 function webform_gmap_location_get_markup($component) {
-  $width = (int)$component['extra']['width']!=0 ? (int)$component['extra']['width'] : '100%';
+  $width = (int)$component['extra']['width'] != 0 ? (int)$component['extra']['width'] : '100%';
   $width = $width ? $width . 'px': '100%';
-  $height = (int)$component['extra']['height'] ? (int)$component['extra']['height'] . 'px': '300px';
-
+  $height = (int)$component['extra']['height'] ? (int)$component['extra']['height'] . 'px' : '300px';
   return '<div id="gmap" style="display: block; width:' . $width . ';height:' . $height . ';"></div>';
 }
 
@@ -362,7 +359,7 @@ function webform_gmap_location_get_markup($component) {
  * Return marker url
  */
 function webform_gmap_location_get_marker_url($name_field) {
-  if(variable_get($name_field) != '') {
+  if (variable_get($name_field) != '') {
     $fid = variable_get('webform_gmap_location_marker_fid', '');
     $file = file_load($fid);
     return file_create_url($file->uri);
