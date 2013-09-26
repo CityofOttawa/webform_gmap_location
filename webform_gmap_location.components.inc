@@ -168,8 +168,8 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#type'             => 'markup',
     '#default_value'    => $filter ? _webform_filter_values($component['value']) : $component['value'],
     '#attributes'       => $component['extra']['attributes'],
-    '#theme_wrappers'   => array( 'webform_element' ),
-    '#required'         => $component['required'] || $component['mandatory'],//Either one being true will could as required...because webform changed in 4.x-alpha8
+    '#theme_wrappers'   => array('webform_element'),
+    '#required'         => $component['required'] || $component['mandatory'],
     '#title'            => $filter ? _webform_filter_xss($component['name']) : $component['name'],
     '#title_display'    => $component['extra']['title_display'] ? $component['extra']['title_display'] : 'before',
     '#weight'           => $component['weight'],
@@ -187,9 +187,6 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
 
 
 /**
- * @param $element
- * @return mixed
- *
  * Add 3 hidden fields and loacation field
  */
 function webform_expand_hidden_field($element) {
@@ -210,12 +207,12 @@ function webform_expand_hidden_field($element) {
   $element['gmap_lat'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-    '#attributes' => array('id' => 'gmap_lat')
+    '#attributes' => array('id' => 'gmap_lat'),
   );
   $element['gmap_lon'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-    '#attributes' => array('id' => 'gmap_lon')
+    '#attributes' => array('id' => 'gmap_lon'),
   );
   $element['gmap_zoom'] = array(
     '#type' => 'hidden',
@@ -237,23 +234,6 @@ function theme_gmap_location($variables) {
 
 /**
  * Calculate and returns statistics about results for this component.
- *
- * @param $component
- *   An array of information describing the component, directly correlating to
- *   the webform_component database schema.
- *
- * @param $sids
- *   An optional array of submission IDs (sid). If supplied, the analysis will
- *   be limited to these sids.
- *
- * @param $single
- *   Boolean flag determining if the details about a single component are being
- *   shown. May be used to provided detailed information about a single
- *   component's analysis, such as showing "Other" options within a select list.
- *
- * @return
- *   An array of data rows, each containing a statistic for this component's
- *   submissions.
  */
 function _webform_analysis_gmap($component, $sids = array(), $single = FALSE) {
   // Generate the list of options and questions.
@@ -280,15 +260,6 @@ function _webform_analysis_gmap($component, $sids = array(), $single = FALSE) {
  * Return the result of a component value for display in a table.
  * The output of this function will be displayed under the "Results" tab then
  * "Table".
- *
- * @param $component
- *   A Webform component array.
- * @param $value
- *   An array of information containing the submission result, directly
- *   correlating to the webform_submitted_data database schema.
- *
- * @return
- *   Textual output formatted for human reading.
  */
 function _webform_table_gmap($component, $value) {
   return check_plain(empty($value[0]) ? '' : $value[0]);
@@ -299,14 +270,6 @@ function _webform_table_gmap($component, $value) {
  * The output of this function will be displayed under the "Results" tab then
  * "Download".
  *
- * @param $component
- *   A Webform component array.
- * @param $export_options
- *   An array of options that may configure export of this field.
- *
- * @return
- *   An array of data to be displayed in the first three rows of a CSV file, not
- *   including either prefixed or trailing commas.
  */
 function _webform_csv_headers_gmap($component, $export_options) {
   $header = array();
@@ -321,41 +284,24 @@ function _webform_csv_headers_gmap($component, $export_options) {
  * Format the submitted data of a component for CSV downloading.
  * The output of this function will be displayed under the "Results" tab then
  * "Download".
- *
- * @param $component
- *   A Webform component array.
- * @param $export_options
- *   An array of options that may configure export of this field.
- * @param $value
- *   An array of information containing the submission result, directly
- *   correlating to the webform_submitted_data database schema.
- *
- * @return
- *   An array of items to be added to the CSV file. Each value within the array
- *   will be another column within the file. This function is called once for
- *   every row of data.
  */
 function _webform_csv_data_gmap($component, $export_options, $value) {
   return !isset($value[0]) ? '' : $value[0];
 }
 
 
-
 /**
- * @param $component
- * @return string
  * return markup value
  */
 function webform_gmap_location_get_markup($component) {
-  $width = (int)$component['extra']['width'] != 0 ? (int)$component['extra']['width'] : '100%';
-  $width = $width ? $width . 'px': '100%';
-  $height = (int)$component['extra']['height'] ? (int)$component['extra']['height'] . 'px' : '300px';
+  $width = (int) $component['extra']['width'] != 0 ? (int) $component['extra']['width'] : '100%';
+  $width = $width ? $width . 'px' : '100%';
+  $height = (int) $component['extra']['height'] ? (int) $component['extra']['height'] . 'px' : '300px';
   return '<div id="gmap" style="display: block; width:' . $width . ';height:' . $height . ';"></div>';
 }
 
+
 /**
- * @param $name_field
- * @return bool|string
  * Return marker url
  */
 function webform_gmap_location_get_marker_url($name_field) {
@@ -365,5 +311,5 @@ function webform_gmap_location_get_marker_url($name_field) {
     return file_create_url($file->uri);
   }
   $path = drupal_get_path('module', 'webform_gmap_location');
-  return file_create_url($path.'/img/marker.png');
+  return file_create_url($path . '/img/marker.png');
 }
