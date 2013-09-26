@@ -64,28 +64,19 @@ function webform_gmap_location_webform_validator_alter(&$validators) {
  */
 function webform_gmap_location_webform_component_presave(&$component) {
   if($component["type"] != 'gmap') return FALSE;
-
   global $user;
   if (is_numeric($component['extra']['marker']) && $component['extra']['marker'] > 0) {
-    // Load the file via file.fid.
     $file = file_load($component['extra']['marker']);
     if ($file) {
-      // Change status to permanent.
       $file->status = FILE_STATUS_PERMANENT;
-      // Save.
       file_save($file);
-      // Save file to variable.
       variable_set('webform_gmap_location_marker_fid', $file->fid);
-      // Record that the module (in this example, user module) is using the file.
       file_usage_add($file, 'user', 'user', $user->uid);
     }
   }
   else {
-    // Load the file via file.fid.
     $file = file_load(variable_get('webform_gmap_location_marker_fid', ''));
-
     if ($file && $file->fid) {
-      // Delete the file and the usage record
       file_delete($file, TRUE);
     }
     variable_del('webform_gmap_location_marker_fid');
