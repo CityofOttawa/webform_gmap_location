@@ -14,12 +14,10 @@
         };
         var map = new google.maps.Map(document.getElementById("gmap"), myOptions);
 
-        var input =(document.getElementById('MapLocation'));
+        var input = (document.getElementById('MapLocation'));
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo('bounds', map);
-
-
-      var infowindow = new google.maps.InfoWindow();
+        var infowindow = new google.maps.InfoWindow();
 
 
 
