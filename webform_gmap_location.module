@@ -59,11 +59,14 @@ function webform_gmap_location_webform_validator_alter(&$validators) {
   $validators['oneofseveral']['component_types'][] = 'gmap';
 }
 
+
 /**
  *  Implements hook_webform_component_presave().
  */
 function webform_gmap_location_webform_component_presave(&$component) {
-  if($component["type"] != 'gmap') return FALSE;
+  if($component["type"] != 'gmap') {
+    return FALSE;
+  }
   global $user;
   if (is_numeric($component['extra']['marker']) && $component['extra']['marker'] > 0) {
     $file = file_load($component['extra']['marker']);

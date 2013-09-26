@@ -56,6 +56,7 @@ function _webform_theme_gmap() {
 
 /**
  * Generate the form for editing a component.
+ *
  * @param $component
  *   A Webform component array.
  *
@@ -66,18 +67,15 @@ function _webform_edit_gmap($component) {
   global $language;
 
   $path = drupal_get_path('module', 'webform_gmap_location');
-  drupal_add_js('http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language='.$language->language,  array('type' => 'external', 'weight' => 5));
+  drupal_add_js('http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' .
+                  $language->language, array('type' => 'external', 'weight' => 5));
   drupal_add_js($path . '/js/gmap_admin.js', array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
-
-
   drupal_add_js(
-    array('gmap' =>
-    array(
+    array('gmap' => array(
       'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-      'lon'=> empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
+      'lon' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
       'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
-      'zoom'=> empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],
-    )
+      'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],)
     ),
     'setting');
 
@@ -122,7 +120,7 @@ function _webform_edit_gmap($component) {
       'class' => array(
         'field-type-places-autocomplete',
       ),
-      'id' => 'MapLocation'
+      'id' => 'MapLocation',
     ),
   );
   $form['extra']['gmap'] = array(
@@ -131,43 +129,39 @@ function _webform_edit_gmap($component) {
   $form['extra']['gmap_lat'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-    '#attributes' => array('id'=>'gmap_lat')
+    '#attributes' => array('id' => 'gmap_lat')
   );
   $form['extra']['gmap_lon'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-    '#attributes' => array('id'=>'gmap_lon')
+    '#attributes' => array('id' => 'gmap_lon')
   );
   $form['extra']['gmap_zoom'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],
-    '#attributes' => array('id'=>'gmap_zoom')
+    '#attributes' => array('id' => 'gmap_zoom')
   );
-
-
   return $form;
 }
 
 
 /**
  * Render a Webform component to be part of a form.
+ *
  * @see _webform_client_form_add_component()
  */
 function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
   global $language;
-
   $path = drupal_get_path('module', 'webform_gmap_location');
-  drupal_add_js('http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language='.$language->language,  array('type' => 'external', 'weight' => 5));
+  drupal_add_js('http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' .
+                $language->language,  array('type' => 'external', 'weight' => 5));
   drupal_add_js($path . '/js/gmap_admin.js', array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
-
-  drupal_add_js(
-    array('gmap' =>
+  drupal_add_js(array('gmap' =>
     array(
       'lat' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-      'lon'=> empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
+      'lon' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
       'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
-      'zoom'=> empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],
-    )
+      'zoom' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],)
     ),
     'setting');
 
@@ -180,17 +174,15 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#title'            => $filter ? _webform_filter_xss($component['name']) : $component['name'],
     '#title_display'    => $component['extra']['title_display'] ? $component['extra']['title_display'] : 'before',
     '#weight'           => $component['weight'],
-    '#markup'           =>  webform_gmap_location_get_markup($component),
+    '#markup'           => webform_gmap_location_get_markup($component),
     '#translatable'     => array('title',),
     '#webform_component' => $component,
     '#theme' => 'gmap_location',
     '#process'          => array('webform_expand_hidden_field'),
   );
-
-  if ( isset( $value ) ) {
+  if(isset($value)) {
     $form_item['#default_value'] = $value[0];
   }
-
   return $form_item;
 }
 
@@ -198,6 +190,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
 /**
  * @param $element
  * @return mixed
+ *
  * Add 3 hidden fields and loacation field
  */
 function webform_expand_hidden_field($element) {
@@ -211,24 +204,24 @@ function webform_expand_hidden_field($element) {
         'class' => array(
           'field-type-places-autocomplete',
         ),
-        'id' => 'MapLocation'
+        'id' => 'MapLocation',
       ),
     );
   }
   $element['gmap_lat'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-    '#attributes' => array('id'=>'gmap_lat')
+    '#attributes' => array('id' => 'gmap_lat')
   );
   $element['gmap_lon'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-    '#attributes' => array('id'=>'gmap_lon')
+    '#attributes' => array('id' => 'gmap_lon')
   );
   $element['gmap_zoom'] = array(
     '#type' => 'hidden',
     '#default_value' => empty($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],
-    '#attributes' => array('id'=>'gmap_zoom'),
+    '#attributes' => array('id' => 'gmap_zoom'),
   );
   return $element;
 }
@@ -246,12 +239,15 @@ function theme_gmap_location($variables) {
 
 /**
  * Calculate and returns statistics about results for this component.
+ *
  * @param $component
  *   An array of information describing the component, directly correlating to
  *   the webform_component database schema.
+ *
  * @param $sids
  *   An optional array of submission IDs (sid). If supplied, the analysis will
  *   be limited to these sids.
+ *
  * @param $single
  *   Boolean flag determining if the details about a single component are being
  *   shown. May be used to provided detailed information about a single
@@ -263,27 +259,21 @@ function theme_gmap_location($variables) {
  */
 function _webform_analysis_gmap($component, $sids = array(), $single = FALSE) {
   // Generate the list of options and questions.
-  $query = db_select('webform_submitted_data', 'wsd', array( 'fetch' => PDO::FETCH_ASSOC ))->fields('wsd', array( 'data' ))->condition('nid', $component['nid'])->condition('cid', $component['cid']);
-  if ( count($sids) ) {
+  $query = db_select('webform_submitted_data', 'wsd', array('fetch' => PDO::FETCH_ASSOC))->fields('wsd', array('data'))->condition('nid', $component['nid'])->condition('cid', $component['cid']);
+  if(count($sids)) {
     $query->condition('sid', $sids, 'IN');
   }
   $non_blanks = 0;
   $submissions = 0;
   $result = $query->execute();
-  foreach ( $result as $data ) {
-    if ( drupal_strlen(trim($data['data'])) > 0 ) {
+  foreach ($result as $data) {
+    if(drupal_strlen(trim($data['data'])) > 0) {
       $non_blanks++;
     }
     $submissions++;
   }
-  $rows[0] = array(
-    t('Left Blank'),
-    ( $submissions - $non_blanks )
-  );
-  $rows[1] = array(
-    t('User entered value'),
-    $non_blanks
-  );
+  $rows[0] = array(t('Left Blank'),($submissions - $non_blanks));
+  $rows[1] = array(t('User entered value'),$non_blanks);
   return $rows;
 }
 
@@ -303,7 +293,7 @@ function _webform_analysis_gmap($component, $sids = array(), $single = FALSE) {
  *   Textual output formatted for human reading.
  */
 function _webform_table_gmap($component, $value) {
-  return check_plain(empty( $value[0] ) ? '' : $value[0]);
+  return check_plain(empty($value[0]) ? '' : $value[0]);
 }
 
 /**
@@ -348,7 +338,7 @@ function _webform_csv_headers_gmap($component, $export_options) {
  *   every row of data.
  */
 function _webform_csv_data_gmap($component, $export_options, $value) {
-  return !isset( $value[0] ) ? '' : $value[0];
+  return !isset($value[0]) ? '' : $value[0];
 }
 
 
@@ -360,10 +350,10 @@ function _webform_csv_data_gmap($component, $export_options, $value) {
  */
 function webform_gmap_location_get_markup($component) {
   $width = (int)$component['extra']['width']!=0 ? (int)$component['extra']['width'] : '100%';
-  $width = $width ? $width.'px': '100%';
-  $height = (int)$component['extra']['height'] ? (int)$component['extra']['height'].'px': '300px';
+  $width = $width ? $width . 'px': '100%';
+  $height = (int)$component['extra']['height'] ? (int)$component['extra']['height'] . 'px': '300px';
 
-  return '<div id="gmap" style="display: block; width:'.$width.';height:'.$height.';"></div>';
+  return '<div id="gmap" style="display: block; width:' . $width . ';height:' . $height . ';"></div>';
 }
 
 /**
