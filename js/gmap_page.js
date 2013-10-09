@@ -56,8 +56,8 @@ var markers = {};
         });
         var id = marker.__gm_id
         markers[id] = marker;
-        document.getElementById('gmap_lat').value = document.getElementById('gmap_lat').value  + position.lat() + ',';
-        document.getElementById('gmap_lon').value = document.getElementById('gmap_lon').value  + position.lng() + ',';
+        document.getElementById('gmap_lat').value = document.getElementById('gmap_lat').value + position.lat() + ',';
+        document.getElementById('gmap_lon').value = document.getElementById('gmap_lon').value + position.lng() + ',';
         map.panTo(position);
         limit_count = limit_count + 1;
         google.maps.event.addListener(marker, "click", function(point){ id = this.__gm_id; delMarker(id) });
