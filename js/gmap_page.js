@@ -40,8 +40,9 @@ var markers = {};
           placeMarker(place.geometry.location, map);
         });
         google.maps.event.addListener(map, 'click', function(e) {
-          console.log(limit);
-          if(limit + 1 == limit_count && limit != 0) return false;
+          if(limit + 1 == limit_count && limit != 0) {
+            return false;
+          }
           placeMarker(e.latLng, map);
         });
         google.maps.event.addListener(map, 'zoom_changed', function() {
