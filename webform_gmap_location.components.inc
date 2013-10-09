@@ -313,11 +313,13 @@ function webform_gmap_location_get_marker_url($name_field) {
 
 
 /**
- * Return options
+ * Return options.
  */
 function get_options_for_select(){
   $options = array();
   $options[0] = t('Unlimited');
-  for($i=1; $i<11; $i++){$options[$i] = $i;}
+  for ($i = 1; $i < 11; $i++) {
+    $options[$i] = $i;
+  }
   return $options;
 }
