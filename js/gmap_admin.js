@@ -15,10 +15,7 @@
       var input = (document.getElementById('MapLocation'));
       var autocomplete = new google.maps.places.Autocomplete(input);
       autocomplete.bindTo('bounds', map);
-      var infowindow = new google.maps.InfoWindow();
       google.maps.event.addListener(autocomplete, 'place_changed', function(event) {
-        infowindow.close();
-        marker.setVisible(false);
         var place = autocomplete.getPlace();
         if (place.geometry.viewport) {
           map.fitBounds(place.geometry.viewport);
@@ -26,11 +23,6 @@
           map.setCenter(place.geometry.location);
           map.setZoom(17);
         }
-        marker.setIcon(({
-          url: icon
-        }));
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
         var address = '';
         if (place.address_components) {
           address = [
@@ -39,8 +31,6 @@
             (place.address_components[2] && place.address_components[2].short_name || '')
           ].join(' ');
         }
-        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-        infowindow.open(map, marker);
         placeMarker(place.geometry.location);
       });
       var marker = new google.maps.Marker({
