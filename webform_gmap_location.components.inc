@@ -82,7 +82,7 @@ function _webform_edit_gmap($component) {
   $form['extra']['selected'] = array(
     '#type' => 'select',
     '#title' => t('Number of values'),
-    '#options' => get_options_for_select(),
+    '#options' => webform_gmap_location_get_options_for_select(),
     '#default_value' => $component['extra']['selected'],
     '#description' => t('Maximum number of values users can enter for this field.'),
   );
@@ -177,7 +177,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#translatable'     => array('title'),
     '#webform_component' => $component,
     '#theme' => 'gmap_location',
-    '#process'          => array('webform_gmail_location_expand_hidden_field'),
+    '#process'          => array('webform_gmap_location_expand_hidden_field'),
   );
   if (isset($value)) {
     $form_item['#default_value'] = $value[0];
@@ -189,7 +189,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
 /**
  * Add 3 hidden fields and loacation field.
  */
-function webform_gmail_location_expand_hidden_field($element) {
+function webform_gmap_location_expand_hidden_field($element) {
   $component = $element["#webform_component"];
   if ($component["extra"]["places_autocomplete"] == 1) {
     $element['location'] = array(
@@ -315,7 +315,7 @@ function webform_gmap_location_get_marker_url($name_field) {
 /**
  * Return options.
  */
-function get_options_for_select() {
+function webform_gmap_location_get_options_for_select() {
   $options = array();
   $options[0] = t('Unlimited');
   for ($i = 1; $i < 11; $i++) {
