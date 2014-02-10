@@ -10,6 +10,41 @@ define('GMAP_DEFAULT_LON', 37.80);
 define('GMAP_DEFAULT_ZOOM', 10);
 define('GMAP_DEFAULT_LIMIT', 1);
 
+/**
+ * Implements _webform_display_component().
+ */
+function _webform_display_gmap($component, $value, $format = 'html') {
+  $values = array();
+  // Prepare the data for display
+  if (isset($value['gmap_lat']) and isset($value['gmap_lon'])) {
+    $lats = explode(',', $value['gmap_lat']);
+    $lons = explode(',', $value['gmap_lon']);
+
+    // In accordance with ISO6709 XML representation, we show pairs of lat/lon separated by a space
+    if (count($lats) == count($lons)) {
+      foreach ($lats as $index => $lat) {
+        if (is_numeric($lats[$index]) and is_numeric($lons[$index])) {
+          $values[$index] = $lats[$index] . ' ' . $lons[$index];
+          $values[$index] = str_replace(',', '', $values[$index]);
+          $values[$index] = trim($values[$index]);
+        }
+      }
+    }
+  }
+
+  $values = implode(", ", $values);
+  if (!empty($value['location'])) {
+    $values .= ' (' . check_plain($value['location']) . ')';
+  }
+
+  return array(
+    '#title' => $component['name'],
+    '#weight' => $component['weight'],
+    '#theme' => 'webform_display_textfield',
+    '#theme_wrappers' => $format == 'html' ? array('webform_element') : array('webform_element_text'),
+    '#value' => $values,
+  );
+}
 
 /**
  * Specify the default properties of a component.
@@ -40,7 +75,6 @@ function _webform_defaults_gmap() {
   );
 }
 
-
 /**
  * Implements _webform_theme_component().
  */
@@ -52,7 +86,6 @@ function _webform_theme_gmap() {
   );
 }
 
-
 /**
  * Generate the form for editing a component.
  */
@@ -60,20 +93,25 @@ function _webform_edit_gmap($component) {
   global $language;
 
   $path = drupal_get_path('module', 'webform_gmap_location');
-  drupal_add_js('http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' .
-                $language->language, array('type' => 'external', 'weight' => 5));
-  drupal_add_js($path . '/js/gmap_admin.js',
-                array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
-  drupal_add_js(
-    array(
-      'gmap' => array(
-        'lat' => !isset($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-        'lon' => !isset($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-        'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
-        'zoom' => !isset($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'])),
-    'setting');
 
   $form = array();
+  $form['#attached'] = array(
+    'js' => array(
+      'http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' . $language->language => array('type' => 'external', 'weight' => 5),
+      $path . '/js/gmap_admin.js' => array('type' => 'file', 'weight' => 6, 'scope' => 'footer'),
+      array(
+        'type' => 'setting',
+        'data' => array(
+          'gmap' => array(
+            'lat' => !isset($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
+            'lon' => !isset($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
+            'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
+            'zoom' => !isset($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom']
+          ),
+        ),
+      ),
+    ),
+  );
   $form['extra']['places_autocomplete'] = array(
     '#type' => 'checkbox',
     '#default_value' => $component['extra']['places_autocomplete'],
@@ -142,7 +180,6 @@ function _webform_edit_gmap($component) {
   return $form;
 }
 
-
 /**
  * Render a Webform component to be part of a form.
  *
@@ -151,19 +188,6 @@ function _webform_edit_gmap($component) {
 function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
   global $language;
   $path = drupal_get_path('module', 'webform_gmap_location');
-  drupal_add_js('http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' .
-                $language->language, array('type' => 'external', 'weight' => 5));
-
-  drupal_add_js(array(
-      'gmap' => array(
-        'limit' => !isset($component['extra']['selected']) ? GMAP_DEFAULT_LIMIT : $component['extra']['selected'],
-        'lat' => !isset($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
-        'lon' => !isset($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
-        'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
-        'zoom' => !isset($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],)),
-    'setting');
-  drupal_add_js($path . '/js/gmap_page.js',
-    array('type' => 'file', 'weight' => 6, 'scope' => 'footer'));
   $form_item = array(
     '#type'             => 'markup',
     '#default_value'    => $filter ? _webform_filter_values($component['value']) : $component['value'],
@@ -178,13 +202,30 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#webform_component' => $component,
     '#theme' => 'gmap_location',
     '#process'          => array('webform_gmap_location_expand_hidden_field'),
+    '#attached' => array(
+      'js' => array(
+        'http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' . $language->language => array('type' => 'external', 'weight' => 5, 'scope' => 'footer'),
+        $path . '/js/gmap_page.js' => array('type' => 'file', 'weight' => 6, 'scope' => 'footer'),
+        array(
+          'type' => 'setting',
+          'data' => array(
+            'gmap' => array(
+              'limit' => !isset($component['extra']['selected']) ? GMAP_DEFAULT_LIMIT : $component['extra']['selected'],
+              'lat' => !isset($component['extra']['gmap_lat']) ? GMAP_DEFAULT_LAT : $component['extra']['gmap_lat'],
+              'lon' => !isset($component['extra']['gmap_lon']) ? GMAP_DEFAULT_LON : $component['extra']['gmap_lon'],
+              'path' => webform_gmap_location_get_marker_url('webform_gmap_location_marker_fid'),
+              'zoom' => !isset($component['extra']['gmap_zoom']) ? GMAP_DEFAULT_ZOOM : $component['extra']['gmap_zoom'],
+            ),
+          ),
+        ),
+      ),
+    ),
   );
   if (isset($value)) {
     $form_item['#default_value'] = $value[0];
   }
   return $form_item;
 }
-
 
 /**
  * Add 3 hidden fields and loacation field.
@@ -217,7 +258,6 @@ function webform_gmap_location_expand_hidden_field($element) {
   return $element;
 }
 
-
 /**
  * Format the output of data for this component.
  */
@@ -225,7 +265,6 @@ function theme_gmap_location($variables) {
   $element = $variables['element'];
   return '<div class="webform-container-inline">' . $element["#markup"] . drupal_render_children($element) . '</div>';
 }
-
 
 /**
  * Calculate and returns statistics about results for this component.
@@ -249,7 +288,6 @@ function _webform_analysis_gmap($component, $sids = array(), $single = FALSE) {
   $rows[1] = array(t('User entered value'), $non_blanks);
   return $rows;
 }
-
 
 /**
  * Return the result of a component value for display in a table.
@@ -275,7 +313,6 @@ function _webform_csv_headers_gmap($component, $export_options) {
   return $header;
 }
 
-
 /**
  * Format the submitted data of a component for CSV downloading.
  *
@@ -286,7 +323,6 @@ function _webform_csv_data_gmap($component, $export_options, $value) {
   return !isset($value[0]) ? '' : $value[0];
 }
 
-
 /**
  * Return markup value.
  */
@@ -296,7 +332,6 @@ function webform_gmap_location_get_markup($component) {
   $height = (int) $component['extra']['height'] ? (int) $component['extra']['height'] . 'px' : '300px';
   return '<div id="gmap" style="display: block; width:' . $width . ';height:' . $height . ';"></div>';
 }
-
 
 /**
  * Return marker url.
@@ -310,7 +345,6 @@ function webform_gmap_location_get_marker_url($name_field) {
   $path = drupal_get_path('module', 'webform_gmap_location');
   return file_create_url($path . '/img/marker.png');
 }
-
 
 /**
  * Return options.
