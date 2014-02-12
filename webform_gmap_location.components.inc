@@ -97,7 +97,7 @@ function _webform_edit_gmap($component) {
   $form = array();
   $form['#attached'] = array(
     'js' => array(
-      'http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' . $language->language => array('type' => 'external', 'weight' => 5),
+      'https://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' . $language->language => array('type' => 'external', 'weight' => 5),
       $path . '/js/gmap_admin.js' => array('type' => 'file', 'weight' => 6, 'scope' => 'footer'),
       array(
         'type' => 'setting',
@@ -204,7 +204,7 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
     '#process'          => array('webform_gmap_location_expand_hidden_field'),
     '#attached' => array(
       'js' => array(
-        'http://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' . $language->language => array('type' => 'external', 'weight' => 5, 'scope' => 'footer'),
+        'https://maps.google.com/maps/api/js?v=3&sensor=false&libraries=places&language=' . $language->language => array('type' => 'external', 'weight' => 5, 'scope' => 'footer'),
         $path . '/js/gmap_page.js' => array('type' => 'file', 'weight' => 6, 'scope' => 'footer'),
         array(
           'type' => 'setting',
