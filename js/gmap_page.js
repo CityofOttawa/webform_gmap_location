@@ -3,7 +3,7 @@ var lon = Drupal.settings.gmap.lon;
 var zoom = Drupal.settings.gmap.zoom;
 var icon = Drupal.settings.gmap.path;
 var limit = Drupal.settings.gmap.limit;
-console.log(Drupal.settings.gmap);
+//console.log(Drupal.settings.gmap);
 var limit_count = 0;
 var markers = {};
 
