@@ -1,13 +1,13 @@
-var lat = Drupal.settings.gmap.lat;
-var lon = Drupal.settings.gmap.lon;
-var zoom = Drupal.settings.gmap.zoom;
-var icon = Drupal.settings.gmap.path;
-var limit = Drupal.settings.gmap.limit;
-//console.log(Drupal.settings.gmap);
-var limit_count = 0;
-var markers = {};
-
 (function ($) {
+  var lat = Drupal.settings.gmap.lat;
+  var lon = Drupal.settings.gmap.lon;
+  var zoom = Drupal.settings.gmap.zoom;
+  var icon = Drupal.settings.gmap.path;
+  var limit = parseInt(Drupal.settings.gmap.limit);
+  //console.log(Drupal.settings.gmap);
+  var limit_count = 0;
+  var markers = {};
+
   Drupal.behaviors.gmapPage = {
     attach: function(context, settings) {
       function initialize() {
@@ -40,7 +40,7 @@ var markers = {};
           placeMarker(place.geometry.location, map);
         });
         google.maps.event.addListener(map, 'click', function(e) {
-          if(limit + 1 == limit_count && limit != 0) {
+          if(limit != 0 && limit_count >= limit) {
             return false;
           }
           placeMarker(e.latLng, map);
