@@ -19,7 +19,7 @@
         };
         var map = new google.maps.Map(document.getElementById("gmap"), myOptions);
         var input = (document.getElementById('MapLocation'));
-        var autocomplete = new google.maps.places.Autocomplete(input, { componentRestrictions: {city: "Ottawa"} });
+        var autocomplete = new google.maps.places.Autocomplete(input, { componentRestrictions: {country: "ca"} });
         autocomplete.bindTo('bounds', map);
         google.maps.event.addListener(autocomplete, 'place_changed', function(event) {
           var place = autocomplete.getPlace();
