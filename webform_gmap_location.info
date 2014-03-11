@@ -3,3 +3,4 @@ description = "This module adds «Gmap» component to Webform."
 package = "Webform"
 dependencies[] = webform
 core = 7.x
+project status url = https://updates.dropfort.com/fserver/release-history
