@@ -112,6 +112,9 @@ function _webform_edit_gmap($component) {
         ),
       ),
     ),
+    'css' => array(
+      $path . '/webform_gmap_location.css' => array('type' => 'file'),
+    ),
   );
   $form['extra']['places_autocomplete'] = array(
     '#type' => 'checkbox',
@@ -219,6 +222,9 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
             ),
           ),
         ),
+      ),
+      'css' => array(
+        $path . '/webform_gmap_location.css' => array('type' => 'file'),
       ),
     ),
   );
