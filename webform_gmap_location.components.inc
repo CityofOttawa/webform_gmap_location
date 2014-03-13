@@ -27,13 +27,14 @@ function _webform_display_gmap($component, $value, $format = 'html') {
           $values[$index] = $lats[$index] . ' ' . $lons[$index];
           $values[$index] = str_replace(',', '', $values[$index]);
           $values[$index] = trim($values[$index]);
+          break;
         }
       }
     }
   }
 
   $values = implode(", ", $values);
-  if (!empty($value['location'])) {
+  if (FALSE and !empty($value['location'])) {
     $values .= ' (' . check_plain($value['location']) . ')';
   }
 
@@ -110,6 +111,9 @@ function _webform_edit_gmap($component) {
           ),
         ),
       ),
+    ),
+    'css' => array(
+      $path . '/webform_gmap_location.css' => array('type' => 'file'),
     ),
   );
   $form['extra']['places_autocomplete'] = array(
@@ -218,6 +222,9 @@ function _webform_render_gmap($component, $value = NULL, $filter = TRUE) {
             ),
           ),
         ),
+      ),
+      'css' => array(
+        $path . '/webform_gmap_location.css' => array('type' => 'file'),
       ),
     ),
   );
